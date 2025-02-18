@@ -1,14 +1,20 @@
 package com.prashu.auth_requests.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.prashu.auth_requests.models.User;
 import com.prashu.auth_requests.repository.UserRepository;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 
 @RestController
-@RequestMapping("/api")
 public class AuthController {
 
     @Autowired
@@ -38,6 +44,11 @@ public class AuthController {
             return "User signed in successfully";
         }
         return "Invalid username or password";
+    }
+    
+    @GetMapping("/get_csrf_token")
+    public CsrfToken getCsrfToken(HttpServletRequest request) {
+    	return (CsrfToken) request.getAttribute("_csrf");
     }
 
 
