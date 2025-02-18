@@ -6,6 +6,10 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -25,6 +29,12 @@ public class AuthConfig {
 	    .httpBasic(Customizer.withDefaults()) // in postman  basic auth is used to validate the endpoint
 	    ;	
 	  return http.build();
+	}
+	
+	@Bean
+	public UserDetailsService userDetailsService() {
+		UserDetails user1 = User.withDefaultPasswordEncoder().username("xyz").password("123").roles("USER").build();
+		return new InMemoryUserDetailsManager(user1);
 	}
 
 
